@@ -16,8 +16,11 @@ export default function ClientDashboard() {
   return (
     <>
       <PageHeading title={`Olá, ${greetingName}!`} description="Bem-vindo à sua área do cliente.">
-        <Link href="/client/schedule" className="btn btn-primary">
-          <Scissors className="w-4 h-4" />
+        <Link
+          href="/client/schedule"
+          className="btn btn-primary hidden gap-2 sm:inline-flex"
+        >
+          <Scissors className="h-4 w-4" />
           Novo Agendamento
         </Link>
       </PageHeading>

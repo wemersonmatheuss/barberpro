@@ -1,21 +1,19 @@
 ﻿import { Suspense } from 'react'
 
 import { LoginBrandPanel, LoginForm } from './LoginForm'
+import { getServerApiBaseUrl } from '@/lib/api'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 async function loginAction(formData: FormData) {
   'use server'
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL
-  if (!apiBaseUrl) {
-    throw new Error('NEXT_PUBLIC_API_URL is missing')
-  }
+  const apiBase = getServerApiBaseUrl()
 
   const email = String(formData.get('email') ?? '').trim()
   const password = String(formData.get('password') ?? '')
 
-  const res = await fetch(`${apiBaseUrl}/auth/login`, {
+  const res = await fetch(`${apiBase}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),

@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import type { ComponentType } from 'react'
 import { useEffect, useState } from 'react'
 import {
@@ -91,11 +90,7 @@ export function AdminDashboardMetrics() {
       <PageHeading
         title="Dashboard"
         description="Métricas reais da barbearia e da equipe em um só lugar."
-      >
-        <Link href="/admin" className="btn btn-secondary">
-          Voltar ao início
-        </Link>
-      </PageHeading>
+      />
 
       <div className="page-content space-y-10 pb-12">
         <section>

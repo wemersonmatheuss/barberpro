@@ -1,5 +1,7 @@
 'use server'
 
+import { getServerApiBaseUrl } from '@/lib/api'
+
 import type { RegisterActionState } from './register-state'
 
 function formatZodFieldErrors(errors: Record<string, string[] | undefined> | undefined): string | null {
@@ -16,10 +18,7 @@ export async function registerAction(
 ): Promise<RegisterActionState> {
   formData.delete('confirmPassword')
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL
-  if (!apiBaseUrl) {
-    return { error: 'Configuração do servidor incompleta (NEXT_PUBLIC_API_URL).', ok: false }
-  }
+  const apiBaseUrl = getServerApiBaseUrl()
 
   const name = String(formData.get('firstName') ?? '').trim()
   const lastName = String(formData.get('lastName') ?? '').trim()
@@ -55,7 +54,7 @@ export async function registerAction(
     if (lower.includes('fetch') || lower.includes('network') || lower.includes('econnrefused')) {
       return {
         error:
-          'Não foi possível conectar à API. Confirme se o backend está rodando (ex.: porta 3001) e se NEXT_PUBLIC_API_URL está correto.',
+          'Não foi possível conectar à API. Confirme se o backend está rodando (ex.: porta 3001).',
         ok: false,
       }
     }

@@ -76,10 +76,10 @@ export function BarberAiAssistantFab() {
         />
       ) : null}
 
-      <div className="pointer-events-none fixed bottom-5 right-5 z-[200] flex flex-col items-end gap-3 md:bottom-8 md:right-8">
+      <div className="pointer-events-none fixed bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] right-[max(0.75rem,env(safe-area-inset-right,0px))] z-[200] flex max-w-[calc(100dvw-0.75rem)] flex-col items-end gap-3 md:bottom-8 md:right-8">
         {open ? (
           <div
-            className="pointer-events-auto flex max-h-[min(32rem,78vh)] w-[min(calc(100vw-2rem),22rem)] flex-col overflow-hidden rounded-2xl border border-zinc-600/50 bg-surface-primary shadow-2xl shadow-black/40"
+            className="pointer-events-auto flex max-h-[min(32rem,78vh)] w-[min(22rem,calc(100dvw-1.5rem))] flex-col overflow-hidden rounded-2xl border border-zinc-600/50 bg-surface-primary shadow-2xl shadow-black/40"
             role="dialog"
             aria-modal="true"
             aria-labelledby="barber-ai-title"
@@ -188,12 +188,12 @@ export function BarberAiAssistantFab() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="pointer-events-auto flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-cyan-600 text-white shadow-lg shadow-violet-900/40 ring-2 ring-white/10 transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          className="pointer-events-auto flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-cyan-600 text-white shadow-lg shadow-violet-900/40 ring-2 ring-white/10 transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand md:h-14 md:w-14"
           aria-expanded={open}
           aria-haspopup="dialog"
           title="Assistente — resumos"
         >
-          <Bot className="h-7 w-7" aria-hidden />
+          <Bot className="h-6 w-6 md:h-7 md:w-7" aria-hidden />
           <span className="sr-only">Abrir assistente de IA</span>
         </button>
       </div>

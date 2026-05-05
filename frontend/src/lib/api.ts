@@ -1,7 +1,20 @@
-﻿export function getApiBaseUrl() {
-  const base = process.env.NEXT_PUBLIC_API_URL
-  if (!base) throw new Error('NEXT_PUBLIC_API_URL não configurada')
-  return base
+﻿/** URL direta da API (Express). Usada no servidor (Server Actions, SSR) ou se quiser forçar. */
+export function getServerApiBaseUrl(): string {
+  const fromEnv =
+    process.env.INTERNAL_API_URL?.trim() || process.env.NEXT_PUBLIC_API_URL?.trim()
+  if (fromEnv) return fromEnv.replace(/\/$/, '')
+  return 'http://127.0.0.1:3001/api'
+}
+
+/**
+ * Base para `fetch` no browser: mesmo host da página + `/api` (passa pelo rewrite do Next → backend).
+ * No servidor, usa URL direta para o Express — assim funciona no celular na rede local sem trocar `.env`.
+ */
+export function getApiBaseUrl(): string {
+  if (typeof window !== 'undefined') {
+    return `${window.location.origin}/api`
+  }
+  return getServerApiBaseUrl()
 }
 
 export function getCookieValue(name: string): string | null {
@@ -31,9 +44,8 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
   } catch (e) {
     const base = getApiBaseUrl()
     const hint =
-      'Confirme: (1) backend rodando (ex.: npm run dev na pasta backend, porta 3001), (2) NEXT_PUBLIC_API_URL no frontend ' +
-      `(ex.: ${base}) acessível no navegador, (3) use o mesmo host no front e na API — se abrir o site em 127.0.0.1, ` +
-      'prefira http://127.0.0.1:3001/api na variável.'
+      'Confirme: (1) backend rodando (porta 3001), (2) no celular use http://<IP-do-PC>:3000 na mesma rede Wi-Fi, ' +
+      `(3) API acessível em ${base} (no PC o Next encaminha /api para o backend).`
     throw new Error(e instanceof Error && e.message === 'Failed to fetch' ? `Sem conexão com a API. ${hint}` : `${e}`)
   }
 
@@ -41,7 +53,7 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
   if (!ct.includes('application/json')) {
     const text = await res.text()
     throw new Error(
-      text?.trim().slice(0, 180) || `A API respondeu sem JSON (${res.status}). Verifique NEXT_PUBLIC_API_URL (${url}).`,
+      text?.trim().slice(0, 180) || `A API respondeu sem JSON (${res.status}). Verifique o backend (${url}).`,
     )
   }
 

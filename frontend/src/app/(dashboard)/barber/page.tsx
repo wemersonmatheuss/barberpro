@@ -160,12 +160,7 @@ export default function BarberDashboard() {
 
   return (
     <>
-      <PageHeading title={`Olá, ${greetingName}!`} description="Bem-vindo à sua área profissional.">
-        <Link href="/barber/blocks" className="btn btn-secondary">
-          <Clock className="h-4 w-4" />
-          Bloquear horário
-        </Link>
-      </PageHeading>
+      <PageHeading title={`Olá, ${greetingName}!`} description="Bem-vindo à sua área profissional." />
 
       <div className="page-content">
         {loadError ? (
@@ -208,12 +203,24 @@ export default function BarberDashboard() {
           </div>
         </div>
 
+        <div className="mb-8 hidden justify-start sm:flex">
+          <Link
+            href="/barber/blocks"
+            className="btn btn-secondary sm:w-auto sm:justify-center"
+          >
+            <Clock className="h-4 w-4 shrink-0" />
+            Bloquear horário
+          </Link>
+        </div>
+
         <div className="card">
-          <div className="mb-6 flex items-center justify-between">
-            <h3 className="text-lg font-medium text-primary">Sua agenda (hoje e próximos)</h3>
+          <div className="mb-6 flex flex-col gap-2">
+            <h3 className="text-lg font-medium leading-snug text-primary">
+              Sua agenda (hoje e próximos)
+            </h3>
             <Link
               href="/barber/schedule"
-              className="cursor-pointer text-sm font-bold text-brand hover:underline"
+              className="w-fit cursor-pointer text-sm font-bold text-brand underline-offset-2 hover:underline"
             >
               Ver agenda completa
             </Link>

@@ -77,21 +77,7 @@ export function AdminHomeContent() {
 
   return (
     <>
-      <PageHeading
-        title="Visão geral"
-        description="Bem-vindo ao painel administrativo."
-      >
-        <div className="flex flex-wrap gap-3">
-          <Link href="/admin/team" className="btn btn-secondary">
-            <Users className="h-4 w-4" />
-            Novo profissional
-          </Link>
-          <Link href="/admin/services" className="btn btn-primary">
-            <Scissors className="h-4 w-4" />
-            Novo serviço
-          </Link>
-        </div>
-      </PageHeading>
+      <PageHeading title="Visão geral" description="Bem-vindo ao painel administrativo." />
 
       <div className="page-content">
         <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

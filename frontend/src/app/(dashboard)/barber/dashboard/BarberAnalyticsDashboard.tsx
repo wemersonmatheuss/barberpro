@@ -21,14 +21,13 @@ import {
   type BarberScheduleStatus,
 } from '../barberAgendaStatus'
 
-export type BarberDashPeriod = 'today' | 'week' | 'month' | 'quarter' | 'year' | 'last12'
+export type BarberDashPeriod = 'today' | 'week' | 'month' | 'quarter' | 'last12'
 
 const PERIOD_OPTIONS: { id: BarberDashPeriod; label: string }[] = [
   { id: 'today', label: 'Hoje' },
   { id: 'week', label: 'Semana' },
   { id: 'month', label: 'Mês' },
   { id: 'quarter', label: 'Trimestre' },
-  { id: 'year', label: 'Ano' },
   { id: 'last12', label: '12 meses' },
 ]
 
@@ -76,7 +75,7 @@ function mockRevenueBarsFromPeriod(faturamentoTotal: number, period: BarberDashP
   } else if (grain === 'weekly') {
     len = 8
   } else {
-    len = period === 'year' || period === 'last12' ? 12 : 6
+    len = period === 'last12' ? 12 : 6
   }
 
   len = Math.max(3, Math.min(len, 16))
@@ -170,11 +169,7 @@ export function BarberAnalyticsDashboard() {
       <PageHeading
         title="Dashboard"
         description="Indicadores consolidados a partir dos seus agendamentos reais. O gráfico é uma distribuição visual do faturamento bruto (concluídos)."
-      >
-        <Link href="/barber" className="btn btn-secondary">
-          Voltar ao painel
-        </Link>
-      </PageHeading>
+      />
 
       <div className="page-content space-y-8 pb-12">
         <section className="card space-y-6">

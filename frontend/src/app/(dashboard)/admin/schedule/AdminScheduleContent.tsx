@@ -1,6 +1,5 @@
 ﻿'use client'
 
-import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { CalendarRange, Clock, User } from 'lucide-react'
 
@@ -82,11 +81,7 @@ export function AdminScheduleContent() {
 
   return (
     <>
-      <PageHeading title="Agenda geral" description="Visão consolidada e real da operação." >
-        <Link href="/admin" className="btn btn-secondary">
-          Voltar ao início
-        </Link>
-      </PageHeading>
+      <PageHeading title="Agenda geral" description="Visão consolidada e real da operação." />
 
       <div className="page-content pb-12">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
