@@ -1,0 +1,210 @@
+@import 'tailwindcss';
+@config '../../tailwind.config.js';
+
+:root {
+  --color-danger: #f87171;
+  --color-danger-muted: rgba(248, 113, 113, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-default: rgba(255, 255, 255, 0.08);
+}
+
+@layer base {
+  body {
+    @apply min-h-screen bg-surface-base font-sans text-content-primary antialiased;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+}
+
+@layer components {
+  .page-wrapper {
+    @apply min-h-screen flex-1 overflow-x-hidden bg-surface-base md:pl-64;
+  }
+
+  .page-header {
+    @apply border-b border-[color:var(--border-subtle)] bg-surface-primary/80 px-4 py-5 backdrop-blur-sm sm:px-6 md:px-8 md:py-6;
+  }
+
+  .page-content {
+    @apply mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 md:p-8;
+  }
+
+  .display {
+    @apply font-display font-semibold tracking-tight text-primary;
+  }
+
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-bold transition-colors disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-brand text-content-inverse hover:bg-brand-light;
+  }
+
+  .btn-secondary {
+    @apply border border-[color:var(--border-default)] bg-surface-overlay text-primary hover:bg-surface-subtle;
+  }
+
+  .btn-danger {
+    @apply border border-[rgba(248,113,113,0.42)] bg-[var(--color-danger-muted)] text-[var(--color-danger)] hover:bg-[rgba(248,113,113,0.22)] hover:border-[rgba(248,113,113,0.55)];
+  }
+
+  .btn-ghost {
+    @apply border-transparent bg-transparent text-secondary hover:bg-surface-overlay hover:text-primary;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  .card {
+    @apply rounded-lg border border-[color:var(--border-subtle)] bg-surface-elevated p-6;
+  }
+
+  .card-elevated {
+    @apply rounded-xl border border-[color:var(--border-default)] bg-surface-elevated p-8 shadow-elevated;
+  }
+
+  .input {
+    @apply w-full rounded-md border border-[color:var(--border-default)] bg-surface-overlay px-3 py-2.5 text-sm text-primary outline-none transition-shadow placeholder:text-tertiary focus:border-brand focus:shadow-brand-sm;
+  }
+
+  /** Ícones nativos de calendário/relógio em inputs date/time (Chrome, Edge, Safari) — branco suave */
+  .input-datetime-picker-soft {
+    color-scheme: dark;
+  }
+
+  .input-datetime-picker-soft::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.55;
+    filter: invert(1);
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-medium text-secondary;
+  }
+
+  .divider {
+    @apply my-6 h-px w-full bg-[rgba(255,255,255,0.06)];
+  }
+
+  /* Acima do scrim do assistente (FAB) e do backdrop da gaveta; modais usam z-index maior (ex.: z-[220]). */
+  .sidebar {
+    @apply fixed left-0 top-0 z-[110] flex h-full min-h-screen flex-col border-r border-[color:var(--border-subtle)] bg-surface-primary transition-[width] duration-200 ease-out;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-secondary transition-colors hover:bg-surface-overlay hover:text-primary;
+  }
+
+  .nav-item.active {
+    @apply bg-brand-muted font-medium text-brand;
+  }
+
+  .nav-item-icon {
+    @apply h-5 w-5 shrink-0;
+  }
+
+  .avatar {
+    @apply flex items-center justify-center rounded-full bg-surface-overlay text-sm font-medium text-primary;
+  }
+
+  .avatar-sm {
+    @apply h-8 w-8 text-xs;
+  }
+
+  .avatar-md {
+    @apply h-10 w-10;
+  }
+
+  .avatar-xl {
+    @apply h-14 w-14 text-lg;
+  }
+
+  .metric-card {
+    @apply rounded-lg border border-[color:var(--border-subtle)] bg-surface-elevated p-5;
+  }
+
+  .metric-label {
+    @apply text-xs font-medium uppercase tracking-wider text-tertiary;
+  }
+
+  .metric-value {
+    @apply text-3xl font-semibold tracking-tight text-primary;
+  }
+
+  .metric-value-brand {
+    @apply text-brand;
+  }
+
+  .metric-delta {
+    @apply text-xs font-medium;
+  }
+
+  .metric-delta-up {
+    @apply text-emerald-400;
+  }
+
+  .metric-delta-down {
+    @apply text-red-400;
+  }
+
+  .table-wrapper {
+    @apply -mx-1 overflow-x-auto;
+  }
+
+  .table {
+    @apply w-full border-collapse text-left text-sm;
+  }
+
+  .table thead {
+    @apply border-b border-[color:var(--border-subtle)];
+  }
+
+  .table th {
+    @apply pb-3 pr-4 text-xs font-medium uppercase tracking-wider text-tertiary;
+  }
+
+  .table tbody tr {
+    @apply border-b border-[color:var(--border-subtle)] transition-colors hover:bg-surface-overlay/50;
+  }
+
+  .table td {
+    @apply py-4 pr-4 text-secondary;
+  }
+
+  .badge {
+    @apply inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .badge-pending {
+    background-color: color-mix(in srgb, #fbbf24 15%, transparent);
+    @apply text-status-pending;
+  }
+
+  .badge-confirmed {
+    background-color: color-mix(in srgb, #60a5fa 15%, transparent);
+    @apply text-status-confirmed;
+  }
+
+  .badge-completed {
+    background-color: color-mix(in srgb, #34d399 15%, transparent);
+    @apply text-status-completed;
+  }
+
+  .badge-cancelled {
+    background-color: color-mix(in srgb, #f87171 15%, transparent);
+    @apply text-status-cancelled;
+  }
+
+  .badge-rescheduled {
+    background-color: color-mix(in srgb, #a78bfa 18%, transparent);
+    @apply text-status-rescheduled;
+  }
+}
