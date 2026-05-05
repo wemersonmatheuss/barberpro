@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── USUÁRIOS ─────────────────────────────────────────────────
+
+enum Role {
+  CLIENT
+  BARBER
+  ADMIN
+}
+
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+}
+
+model User {
+  id           String       @id @default(uuid())
+  name         String
+  lastName     String
+  email        String       @unique
+  phone        String?
+  /** CPF do profissional (login via CPF para barbeiros). */
+  cpf          String?      @unique
+  passwordHash String?
+  avatarUrl    String?
+  role         Role         @default(CLIENT)
+  provider     AuthProvider @default(LOCAL)
+  providerId   String?
+  isActive     Boolean      @default(true)
+
+  appointments Appointment[] @relation("ClientAppointments")
+  professional Professional?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// ─── PROFISSIONAIS ────────────────────────────────────────────
+
+model Professional {
+  id            String  @id @default(uuid())
+  userId        String  @unique
+  bio           String?
+  commissionPct Decimal @default(40) @db.Decimal(5, 2)
+  isActive      Boolean @default(true)
+
+  user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  professionalServices ProfessionalService[]
+  appointments         Appointment[]         @relation("ProfessionalAppointments")
+  blockedSlots         BlockedSlot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("professionals")
+}
+
+// ─── SERVIÇOS ─────────────────────────────────────────────────
+
+model Service {
+  id              String  @id @default(uuid())
+  name            String
+  description     String?
+  durationMinutes Int
+  isActive        Boolean @default(true)
+
+  professionalServices ProfessionalService[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("services")
+}
+
+// ─── SERVIÇOS POR PROFISSIONAL (preço individual) ─────────────
+
+model ProfessionalService {
+  id             String  @id @default(uuid())
+  professionalId String
+  serviceId      String
+  price          Decimal @db.Decimal(10, 2)
+  isActive       Boolean @default(true)
+
+  professional Professional  @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  service      Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([professionalId, serviceId])
+  @@map("professional_services")
+}
+
+// ─── AGENDAMENTOS ─────────────────────────────────────────────
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  RESCHEDULED
+}
+
+model Appointment {
+  id                    String            @id @default(uuid())
+  clientId              String
+  professionalId        String
+  professionalServiceId String
+  clientName            String
+  clientPhone           String
+  status                AppointmentStatus @default(PENDING)
+  scheduledAt           DateTime
+  notes                 String?
+
+  client              User                @relation("ClientAppointments", fields: [clientId], references: [id])
+  professional        Professional        @relation("ProfessionalAppointments", fields: [professionalId], references: [id])
+  professionalService ProfessionalService @relation(fields: [professionalServiceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("appointments")
+}
+
+// ─── HORÁRIOS BLOQUEADOS ──────────────────────────────────────
+
+model BlockedSlot {
+  id             String   @id @default(uuid())
+  professionalId String
+  date           DateTime @db.Date
+  startTime      String
+  endTime        String
+  reason         String?
+
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("blocked_slots")
+}

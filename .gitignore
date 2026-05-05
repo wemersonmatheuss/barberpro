@@ -1,0 +1,34 @@
+# ─── DEPENDÊNCIAS ─────────────────────────────────────────────
+node_modules/
+**/node_modules/
+
+# ─── BUILDS ───────────────────────────────────────────────────
+dist/
+.next/
+out/
+build/
+
+# ─── VARIÁVEIS DE AMBIENTE ────────────────────────────────────
+.env
+.env.local
+.env.development
+.env.production
+.env*.local
+
+# Prisma migrations (prisma/migrations/) costumam ser versionadas —
+# omitido de propósito; descomente só se você tiver um motivo forte.
+
+# ─── LOGS ─────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# ─── SISTEMA OPERACIONAL ──────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── EDITORES ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
